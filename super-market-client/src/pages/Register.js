@@ -13,12 +13,14 @@ export default class Register extends Component {
             email : '', 
             password :'', 
             cpassword : '',
-            termsandconditions : ''
+            termsandconditions : '',
+            message : ''
         };
     
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
       }
+
     
       handleInputChange(event) {
         const target = event.target;
@@ -30,12 +32,13 @@ export default class Register extends Component {
         });
       }
       handleSubmit  = async (event) => {
-        alert('Your favorite flavor is: ' + this.state);
-        console.log(this.state);
+        event.preventDefault();
         const { fName, lName, subscribe, email, password, cpassword,termsandconditions} = this.state;
         const payload = { fName, lName, subscribe, email, password, cpassword,termsandconditions};
-        await UserApi.UserLogin(payload).then(res => {
-          window.alert(`Movie inserted successfully`)
+        await UserApi.UserRegister(payload).then(res => {
+          console.log(`Your are register successfully`);
+          // window.alert(`Your are register successfully`);
+          console.log(JSON.stringify(res));
           this.setState({
             fName : '', 
             lName : '', 
@@ -43,10 +46,12 @@ export default class Register extends Component {
             email : '', 
             password :'', 
             cpassword : '',
-            termsandconditions : ''
+            termsandconditions : '',
+            message : "Your are register successfully",
           })
+        }).catch(err => {
+          console.log("err");
         })
-        event.preventDefault();
       }
 
       
@@ -94,6 +99,12 @@ onChange={this.handleInputChange}/>
 </div>
 </div>
 <input type="submit" value="Register"/>
+<br/>
+<div className="alert alert-success alert-dismissible">
+        <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Success!</strong> {this.state.message}
+      </div>
+
 </form>
                     </div>
                     <div className="register-home">

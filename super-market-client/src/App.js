@@ -15,6 +15,7 @@ import Sitemap from './pages/Sitemap';
 import Offers from './pages/Offers';
 import Checkout from './pages/Checkout';
 import PageNotFound from './pages/PageNotFound';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
       <Switch>
           <Route exact path="/checkout">
             <Checkout/>
+          </Route>
+          <Route exact path="/profile">
+            <Profile/>
           </Route>
           <Route exact path="/offers">
             <Offers/>

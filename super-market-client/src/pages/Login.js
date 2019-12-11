@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import UserApi from "../UserApi";
 
 export default class Login extends Component {
 
@@ -7,7 +8,8 @@ export default class Login extends Component {
         this.state = { 
             isAuthenticated: false, 
             email : '', 
-            password :''
+            password :'',
+            message : ''
         };
     
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -23,10 +25,29 @@ export default class Login extends Component {
           [name]: value
         });
       }
-      handleSubmit(event) {
-        alert('Your favorite flavor is: ' + this.state);
-        console.log(this.state);
+      handleSubmit = async (event) => {
         event.preventDefault();
+        const { email, password } = this.state;
+        const payload = { email, password };
+        await UserApi.UserLogin(payload).then(res => {
+          console.log(`Your are Login successfully`);
+          // window.alert(`Your are register successfully`);
+          // console.log(JSON.stringify(res.data.result));
+          // console.log(JSON.stringify(res.data.token));
+          localStorage.setItem("userInfo", JSON.stringify(res.data));
+          this.setState({
+            email : '', 
+            password :'', 
+            isAuthenticated: true,
+            message : "Your are Login successfully",
+          });
+          localStorage.setItem("isAuthenticated", this.state.isAuthenticated);
+        }).catch(err => {
+          console.log("err");
+        })
+        if (this.state.isAuthenticated) {
+          console.log(JSON.parse(localStorage.getItem("userInfo")));
+        }
       }
 
   render() {
